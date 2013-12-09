@@ -5,7 +5,7 @@
 /*
  * CodeIgniter Monolog integration
  *
- * Version 1.0.1
+ * Version 1.1.0
  * (c) Steve Thomas <steve@thomasmultimedia.com.au>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -15,6 +15,7 @@
 use Monolog\Logger;
 use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\NewRelicHandler;
 use Monolog\Processor\IntrospectionProcessor;
 
 /**
@@ -67,16 +68,23 @@ class CI_Log
             $this->log->pushProcessor(new IntrospectionProcessor());
         }
 
-        // decide which handler to use
-        switch ($this->config['handler']) {
-            case 'file':
-                $handler = new RotatingFileHandler($this->config['file_logfile']);
-                break;
-            default:
-                exit('log handler not supported: ' . $this->config['handler']);
-        }
+        // decide which handler(s) to use
+        foreach ($this->config['handlers'] as $value) {
+            switch ($value) {
+                case 'file':
+                    $handler = new RotatingFileHandler($this->config['file_logfile']);
+                    break;
 
-        $this->log->pushHandler($handler);
+                case 'new_relic':
+                    $handler = new NewRelicHandler(Logger::ERROR, true, $this->config['new_relic_app_name']);
+                    break;
+
+                default:
+                    exit('log handler not supported: ' . $this->config['handler']);
+            }
+
+            $this->log->pushHandler($handler);
+        }
 
         $this->write_log('DEBUG', 'Monolog replacement logger initialized');
     }
@@ -89,8 +97,10 @@ class CI_Log
      * @param $msg
      * @return bool
      */
-    public function write_log($level = 'error', $msg)
-    {
+    public function write_log(
+        $level = 'error',
+        $msg
+    ) {
         $level = strtoupper($level);
 
         // verify error level
@@ -106,7 +116,7 @@ class CI_Log
 
                 if ($pos !== false) {
                     // just exit now - we don't want to log this error
-                    return TRUE;
+                    return true;
                 }
             }
         }
@@ -125,6 +135,6 @@ class CI_Log
                     break;
             }
         }
-        return TRUE;
+        return true;
     }
 }
