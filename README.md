@@ -11,7 +11,7 @@ Installation
 ------------
 
 * Download Monolog using Composer into your Codeigniter root
-* add to your index.php Conposers autoload:
+* add to your index.php Composers autoload:
   ```include_once './vendor/autoload.php';```
 * copy over the relevant files
 * have fun
