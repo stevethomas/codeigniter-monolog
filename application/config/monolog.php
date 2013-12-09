@@ -24,7 +24,7 @@ $config['introspection_processor'] = TRUE; // add some meta data such as control
 $config['file_logfile'] = APPPATH . 'logs/ci.log';
 
 /* NEW RELIC OPTIONS */
-$config['new_relic_app_name'] = 'App Name';
+$config['new_relic_app_name'] = 'App Name - ' . ENVIRONMENT;
 
 // exclusion list for pesky messages which you may wish to temporarily suppress with strpos() match
 $config['exclusion_list'] = array();

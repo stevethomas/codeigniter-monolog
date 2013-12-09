@@ -5,7 +5,7 @@
 /*
  * CodeIgniter Monolog integration
  *
- * Version 1.1.0
+ * Version 1.1.1
  * (c) Steve Thomas <steve@thomasmultimedia.com.au>
  *
  * For the full copyright and license information, please view the LICENSE
