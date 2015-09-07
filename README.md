@@ -7,7 +7,7 @@ Based on https://github.com/pfote/Codeigniter-Monolog, but updating monolog to 1
 
 This library registers Monolog as the PHP error handler to catch all errors and adds support for IntrospectionProcessor for additional meta data.
 
-Supports File (RotatingFileHandler) and New Relic (NewRelicHandler).
+Supports File (RotatingFileHandler), New Relic (NewRelicHandler) and HipChat (HipChatHandler).
 
 Installation
 ------------
