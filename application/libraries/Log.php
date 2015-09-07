@@ -16,6 +16,7 @@ use Monolog\Logger;
 use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\NewRelicHandler;
+use Monolog\Handler\HipChatHandler;
 use Monolog\Processor\IntrospectionProcessor;
 
 /**
