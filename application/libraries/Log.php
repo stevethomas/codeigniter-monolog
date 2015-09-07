@@ -79,6 +79,15 @@ class CI_Log
                     $handler = new NewRelicHandler(Logger::ERROR, true, $this->config['new_relic_app_name']);
                     break;
 
+                case 'hipchat':
+                    $handler = new HipChatHandler(
+                        $config['hipchat_app_token'],
+                        $config['hipchat_app_room_id'],
+                        $config['hipchat_app_notification_name'],
+                        $config['hipchat_app_notify'],
+                        $config['hipchat_app_loglevel']);
+                    break;
+                    
                 default:
                     exit('log handler not supported: ' . $this->config['handler']);
             }
