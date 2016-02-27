@@ -11,8 +11,7 @@ Supports File (RotatingFileHandler), New Relic (NewRelicHandler) and HipChat (Hi
 
 Installation
 ------------
-* Add ```"monolog/monolog": "1.7.*"``` to your composer.json file
-* Run ```composer update```
+* Install monolog with ```"composer require monolog/monolog"```
 * Make sure your index.php contains  ```include_once './vendor/autoload.php';```
 * Copy application/libraries/Log.php and application/config/monolog.php into your CodeIgniter application
 
