@@ -3,10 +3,10 @@
 }
 
 /*
- * CodeIgniter Monolog integration
+ * CodeIgniter Monolog Plus
  *
- * Version 1.1.1
- * (c) Steve Thomas <steve@thomasmultimedia.com.au>
+ * Version 1.4.1
+ * (c) Josh Highland <JoshHighland@venntov.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,9 +14,14 @@
 
 use Monolog\Logger;
 use Monolog\ErrorHandler;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\NewRelicHandler;
+use Monolog\Handler\HipChatHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\IntrospectionProcessor;
+
 
 /**
  * replaces CI's Logger class, use Monolog instead
@@ -73,14 +78,45 @@ class CI_Log
             switch ($value) {
                 case 'file':
                     $handler = new RotatingFileHandler($this->config['file_logfile']);
+										$formatter = new LineFormatter(null, null, $config['file_multiline']);
+										$handler->setFormatter($formatter);
+                    break;
+
+								case 'ci_file':
+                    $handler = new RotatingFileHandler($this->config['ci_file_logfile']);
+
+										//multi line support
+										$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n", null, $config['ci_file_multiline']);
+										$handler->setFormatter($formatter);
                     break;
 
                 case 'new_relic':
                     $handler = new NewRelicHandler(Logger::ERROR, true, $this->config['new_relic_app_name']);
                     break;
 
+                case 'hipchat':
+                    $handler = new HipChatHandler(
+                        $config['hipchat_app_token'],
+                        $config['hipchat_app_room_id'],
+                        $config['hipchat_app_notification_name'],
+                        $config['hipchat_app_notify'],
+                        $config['hipchat_app_loglevel']);
+                    break;
+
+								case 'stderr':
+										$handler = new StreamHandler('php://stderr');
+										break;
+
+								case 'papertrail':
+										$handler = new SyslogUdpHandler($this->config['papertrail_host'], $this->config['papertrail_port']);
+
+										//multi line support
+										$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%", null, $config['papertrail_multiline']);
+										$handler->setFormatter($formatter);
+										break;
+
                 default:
-                    exit('log handler not supported: ' . $this->config['handler']);
+                    exit('log handler not supported: ' . $value . "\n");
             }
 
             $this->log->pushHandler($handler);
