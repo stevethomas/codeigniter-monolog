@@ -14,15 +14,21 @@
 
 use Monolog\Logger;
 use Monolog\ErrorHandler;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\NewRelicHandler;
 use Monolog\Handler\HipChatHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\IntrospectionProcessor;
+
 
 /**
  * replaces CI's Logger class, use Monolog instead
  *
- * see https://github.com/stevethomas/codeigniter-monolog & https://github.com/Seldaek/monolog
+ * see https://github.com/JoshHighland/codeigniter-monolog &
+ * 		 https://github.com/stevethomas/codeigniter-monolog &
+ * 		 https://github.com/Seldaek/monolog
  *
  */
 class CI_Log
@@ -76,6 +82,12 @@ class CI_Log
                     $handler = new RotatingFileHandler($this->config['file_logfile']);
                     break;
 
+								case 'ci-file':
+                    $handler = new RotatingFileHandler($this->config['ci-file_logfile']);
+										$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n");
+										$handler->setFormatter($formatter);
+                    break;
+
                 case 'new_relic':
                     $handler = new NewRelicHandler(Logger::ERROR, true, $this->config['new_relic_app_name']);
                     break;
@@ -88,7 +100,17 @@ class CI_Log
                         $config['hipchat_app_notify'],
                         $config['hipchat_app_loglevel']);
                     break;
-                    
+
+								case 'stderr':
+										$handler = new StreamHandler('php://stderr');
+										break;
+
+								case 'papertrail':
+										$handler = new SyslogUdpHandler($this->config['papertrail_host'], $this->config['papertrail_port']);
+										$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%");
+										$handler->setFormatter($formatter);
+										break;
+
                 default:
                     exit('log handler not supported: ' . $this->config['handler']);
             }
