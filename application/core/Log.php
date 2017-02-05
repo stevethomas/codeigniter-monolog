@@ -3,10 +3,10 @@
 }
 
 /*
- * CodeIgniter Monolog integration
+ * CodeIgniter Monolog Plus
  *
- * Version 1.1.1
- * (c) Steve Thomas <steve@thomasmultimedia.com.au>
+ * Version 1.4.1
+ * (c) Josh Highland <JoshHighland@venntov.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,9 +26,7 @@ use Monolog\Processor\IntrospectionProcessor;
 /**
  * replaces CI's Logger class, use Monolog instead
  *
- * see https://github.com/JoshHighland/codeigniter-monolog &
- * 		 https://github.com/stevethomas/codeigniter-monolog &
- * 		 https://github.com/Seldaek/monolog
+ * see https://github.com/stevethomas/codeigniter-monolog & https://github.com/Seldaek/monolog
  *
  */
 class CI_Log
@@ -80,11 +78,15 @@ class CI_Log
             switch ($value) {
                 case 'file':
                     $handler = new RotatingFileHandler($this->config['file_logfile']);
+										$formatter = new LineFormatter(null, null, $config['file_multiline']);
+										$handler->setFormatter($formatter);
                     break;
 
-								case 'ci-file':
-                    $handler = new RotatingFileHandler($this->config['ci-file_logfile']);
-										$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n");
+								case 'ci_file':
+                    $handler = new RotatingFileHandler($this->config['ci_file_logfile']);
+
+										//multi line support
+										$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n", null, $config['ci_file_multiline']);
 										$handler->setFormatter($formatter);
                     break;
 
@@ -107,12 +109,14 @@ class CI_Log
 
 								case 'papertrail':
 										$handler = new SyslogUdpHandler($this->config['papertrail_host'], $this->config['papertrail_port']);
-										$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%");
+
+										//multi line support
+										$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%", null, $config['papertrail_multiline']);
 										$handler->setFormatter($formatter);
 										break;
 
                 default:
-                    exit('log handler not supported: ' . $this->config['handler']);
+                    exit('log handler not supported: ' . $value . "\n");
             }
 
             $this->log->pushHandler($handler);
