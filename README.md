@@ -9,7 +9,7 @@ This library registers Monolog as the PHP error handler to catch all errors and 
 
 Supports File (RotatingFileHandler), New Relic (NewRelicHandler), HipChat (HipChatHandler) and Papertrail via SyslogUdpHandler.
 
-Compatible with Codeigniter 3.6 and up
+Compatible with Codeigniter 3.1.6 and up
 
 Installation
 ------------
