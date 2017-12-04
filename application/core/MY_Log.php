@@ -12,6 +12,8 @@
  * file that was distributed with this source code.
  */
 
+require_once APPPATH.'vendor/autoload.php';
+
 use Monolog\Logger;
 use Monolog\ErrorHandler;
 use Monolog\Handler\RotatingFileHandler;
@@ -26,7 +28,7 @@ use Monolog\Handler\SyslogUdpHandler;
  * see https://github.com/stevethomas/codeigniter-monolog & https://github.com/Seldaek/monolog
  *
  */
-class CI_Log
+class MY_Log
 {
     // CI log levels
     protected $_levels = array(
