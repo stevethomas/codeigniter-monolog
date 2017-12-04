@@ -9,11 +9,17 @@ This library registers Monolog as the PHP error handler to catch all errors and 
 
 Supports File (RotatingFileHandler), New Relic (NewRelicHandler) and HipChat (HipChatHandler).
 
-Installation
-------------
+Installation CodeIgniter 2
+--------------------------
 * Install monolog with ```composer require monolog/monolog```
 * Make sure your index.php contains  ```include_once './vendor/autoload.php';```
 * Copy application/libraries/Log.php and application/config/monolog.php into your CodeIgniter application
+
+Installation CodeIngiter 3
+--------------------------
+* Install monolog with ```composer require monolog/monolog```
+* Make sure your index.php contains  ```include_once './vendor/autoload.php';```
+* Copy application/core/Log.php and application/config/monolog.php into your CodeIgniter application
 
 Usage
 -----
