@@ -1,4 +1,4 @@
-Codeigniter-Monolog
+Codeigniter-Monolog - with PaperTrail support
 ===================
 
 Simple integration of the Monolog Package (https://github.com/Seldaek/monolog) into CodeIgniter by overwriting the CI_Log class.
@@ -7,7 +7,7 @@ Based on https://github.com/pfote/Codeigniter-Monolog, but updating monolog to 1
 
 This library registers Monolog as the PHP error handler to catch all errors and adds support for IntrospectionProcessor for additional meta data.
 
-Supports File (RotatingFileHandler), New Relic (NewRelicHandler) and HipChat (HipChatHandler).
+Supports File (RotatingFileHandler), New Relic (NewRelicHandler), HipChat (HipChatHandler) and Papertrail via SyslogUdpHandler.
 
 Installation
 ------------

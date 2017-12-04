@@ -2,9 +2,10 @@
     exit('No direct script access allowed');
 }
 /*
- * CodeIgniter Monolog integration
+ * CodeIgniter Monolog integration - Plus Papertrail support
  *
- * (c) Steve Thomas <steve@thomasmultimedia.com.au>
+ * (adjustments) Carlos Umanzor <carlos@nidux.com>
+ * (original idea and concept) Steve Thomas <steve@thomasmultimedia.com.au>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,10 +13,15 @@
 
 
 /* GENERAL OPTIONS */
-$config['handlers'] = array('file', 'new_relic', 'hipchat'); // valid handlers are file | new_relic | hipchat
+//$config['handlers'] = array('file', 'new_relic', 'hipchat', 'papertrail'); // valid handlers are file | new_relic | hipchat | papertrail
+$config['handlers'] = array('papertrail'); // Send logs to papertrail only
 $config['channel'] = ENVIRONMENT; // channel name which appears on each line of log
 $config['threshold'] = '4'; // 'ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4'
 $config['introspection_processor'] = TRUE; // add some meta data such as controller and line number to log messages
+
+/* PAPERTRAIL OPTIONS*/
+$config['papertrail_hostname'] = 'logsX.papertrailapp.com"';
+$config['papertrail_port'] = 49643;
 
 /* FILE HANDLER OPTIONS
  * Log to default CI log directory (must be writable ie. chmod 757).
