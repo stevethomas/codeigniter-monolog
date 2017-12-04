@@ -15,7 +15,7 @@ Installation CodeIgniter 2
 * Make sure your index.php contains  ```include_once './vendor/autoload.php';```
 * Copy application/libraries/Log.php and application/config/monolog.php into your CodeIgniter application
 
-Installation CodeIngiter 3
+Installation CodeIgniter 3
 --------------------------
 * Install monolog with ```composer require monolog/monolog```
 * Make sure your index.php contains  ```include_once './vendor/autoload.php';```
