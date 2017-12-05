@@ -1,19 +1,21 @@
-Codeigniter-Monolog
+Codeigniter-Monolog - with PaperTrail support
 ===================
 
 Simple integration of the Monolog Package (https://github.com/Seldaek/monolog) into CodeIgniter by overwriting the CI_Log class.
 
-Based on https://github.com/pfote/Codeigniter-Monolog, but updating monolog to 1.7.* and supporting file logging more akin to native CodeIgniter logging.
+Based on https://github.com/pfote/Codeigniter-Monolog, but updating monolog to 1.22.* and supporting file logging more akin to native CodeIgniter logging.
 
 This library registers Monolog as the PHP error handler to catch all errors and adds support for IntrospectionProcessor for additional meta data.
 
-Supports File (RotatingFileHandler), New Relic (NewRelicHandler) and HipChat (HipChatHandler).
+Supports File (RotatingFileHandler), New Relic (NewRelicHandler), HipChat (HipChatHandler) and Papertrail via SyslogUdpHandler.
+
+Compatible with Codeigniter 3.1.6 and up
 
 Installation CodeIgniter 2
 --------------------------
 * Install monolog with ```composer require monolog/monolog```
 * Make sure your index.php contains  ```include_once './vendor/autoload.php';```
-* Copy application/libraries/Log.php and application/config/monolog.php into your CodeIgniter application
+* Copy application/core/MY_Log.php and application/config/monolog.php into your CodeIgniter application
 
 Installation CodeIgniter 3
 --------------------------

@@ -3,14 +3,16 @@
 }
 
 /*
- * CodeIgniter Monolog integration
+ * CodeIgniter Monolog integration - Plus Papertrail support
  *
- * Version 1.1.1
- * (c) Steve Thomas <steve@thomasmultimedia.com.au>
+ * (adjustments) Carlos Umanzor <carlos@nidux.com>
+ * (original idea and concept) Steve Thomas <steve@thomasmultimedia.com.au>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+require_once APPPATH.'vendor/autoload.php';
 
 use Monolog\Logger;
 use Monolog\ErrorHandler;
@@ -18,6 +20,7 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\NewRelicHandler;
 use Monolog\Handler\HipChatHandler;
 use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Handler\SyslogUdpHandler;
 
 /**
  * replaces CI's Logger class, use Monolog instead
@@ -25,7 +28,7 @@ use Monolog\Processor\IntrospectionProcessor;
  * see https://github.com/stevethomas/codeigniter-monolog & https://github.com/Seldaek/monolog
  *
  */
-class CI_Log
+class MY_Log
 {
     // CI log levels
     protected $_levels = array(
@@ -72,14 +75,15 @@ class CI_Log
         // decide which handler(s) to use
         foreach ($this->config['handlers'] as $value) {
             switch ($value) {
+                case 'papertrail':
+                    $handler = new SyslogUdpHandler($this->config['papertrail_hostname'], $this->config['papertrail_port']);
+                    break;
                 case 'file':
                     $handler = new RotatingFileHandler($this->config['file_logfile']);
                     break;
-
                 case 'new_relic':
                     $handler = new NewRelicHandler(Logger::ERROR, true, $this->config['new_relic_app_name']);
                     break;
-
                 case 'hipchat':
                     $handler = new HipChatHandler(
                         $config['hipchat_app_token'],
@@ -88,7 +92,6 @@ class CI_Log
                         $config['hipchat_app_notify'],
                         $config['hipchat_app_loglevel']);
                     break;
-                    
                 default:
                     exit('log handler not supported: ' . $this->config['handler']);
             }
